@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AK Collection</title>
+  <meta name="description" content="AK Collection — stylish products and items. Unstitched Clothes Brands In Pakistan" />
+  <meta name="keywords" content="AK Collection, unstitched, Pakistani clothing, trendy fashion">
+  <link rel="icon" type="image/png" href="imagesAK.png">
+
+  <style>
+    :root { --accent:#0f766e; --muted:#6b7280; --accent-2:#b76e79; }
+    * { box-sizing:border-box; }
+    body { font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:0; color:#111; scroll-behavior:smooth; background:#fffaf9; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; }
+    a { color:inherit; }
+
+    /* header / logo */
+    header { background:linear-gradient(90deg,#ecfeff,#f0f9ff); padding:14px 18px; display:flex; align-items:center; justify-content:center; border-bottom:1px solid #f3e9e9; }
+    .brand { display:flex; gap:12px; align-items:center; max-width:1100px; width:100%; }
+    .logo-img { width:56px; height:56px; object-fit:cover; border-radius:12px; border:2px solid rgba(184,139,96,0.9); box-shadow:0 6px 16px rgba(15,23,42,0.06); }
+    .brand .title { font-weight:800; font-size:18px; color:#0b0b0b; line-height:1; }
+    .brand .tag { font-size:13px; color:var(--muted); }
+    nav { margin-left:auto; display:flex; gap:14px; align-items:center; }
+    nav a { color:#0f172a; text-decoration:none; font-weight:600; padding:8px 10px; border-radius:8px; }
+    nav a:hover { color:var(--accent); background:rgba(15,118,110,0.05); }
+
+    /* container + hero */
+    .container { max-width:1100px; margin:0 auto; padding:0 18px; }
+    .hero { padding:36px 0; display:grid; grid-template-columns:1fr; gap:18px; align-items:start; }
+    .hero-inner { max-width:900px; background:linear-gradient(180deg,rgba(255,255,255,0.94),rgba(255,255,255,0.85)); padding:26px; border-radius:12px; box-shadow:0 6px 18px rgba(15,23,42,0.04); }
+    .cta { background:var(--accent); color:#fff; padding:12px 18px; border-radius:8px; border:none; font-weight:700; cursor:pointer; text-decoration:none; display:inline-block; }
+    .btn { background:transparent; border:1px solid rgba(0,0,0,0.06); padding:10px 14px; border-radius:8px; cursor:pointer; font-weight:700; }
+
+    /* featured */
+    .featured-block { background:#f8fafc; border-radius:12px; padding:14px; margin-top:0; box-shadow:0 6px 16px rgba(15,23,42,0.04); }
+    .featured-block h3 { margin:0 0 8px; }
+    /* Video: show poster when no video provided, set max-height */
+    .featured-block video, .featured-block .video-fallback {
+      width:100%;
+      border-radius:12px;
+      display:block;
+      object-fit:cover;
+      max-height:320px;
+    }
+    /* fallback static image element */
+    .video-fallback { background-position:center; background-size:cover; height:320px; }
+
+    /* products grid */
+    .grid { display:grid; grid-template-columns:repeat(1,1fr); gap:16px; padding:18px 0; }
+    .card { border:1px solid #e6edf0; border-radius:12px; overflow:hidden; background:#fff; display:flex; flex-direction:column; box-shadow:0 6px 14px rgba(15,23,42,0.03); transition:all 0.28s ease; }
+    .card:hover { transform:translateY(-6px); box-shadow:0 14px 34px rgba(15,23,42,0.08); }
+    .card img { width:100%; height:220px; object-fit:cover; display:block; }
+    .info { padding:12px; }
+    .price { font-weight:700; margin-top:8px; color:var(--accent); }
+    .order-btn { margin-top:10px; display:inline-block; padding:10px 12px; background:#111; color:white; border-radius:8px; text-decoration:none; font-weight:700; cursor:pointer; border:none; }
+
+    /* modal (order form) */
+    .modal-backdrop { position:fixed; inset:0; background:rgba(0,0,0,0.45); display:none; align-items:center; justify-content:center; z-index:2000; padding:18px; }
+    .modal-backdrop.show { display:flex; }
+    .modal { width:92%; max-width:520px; background:white; border-radius:12px; padding:18px; box-shadow:0 12px 40px rgba(0,0,0,0.3); position:relative; }
+    .modal h3 { margin:0 0 8px; }
+    .modal .close { position:absolute; right:12px; top:10px; font-size:18px; background:transparent; border:none; cursor:pointer; }
+    .modal form { display:grid; gap:8px; margin-top:8px; }
+    .modal input, .modal textarea { padding:10px; border-radius:8px; border:1px solid #eee; width:100%; }
+    .modal .submit { padding:10px 14px; background:var(--accent); color:white; border-radius:8px; border:none; font-weight:700; cursor:pointer; }
+
+    /* small helpers */
+    .muted { color:var(--muted); }
+
+    /* fade-in */
+    .fade-in { opacity:0; transform:translateY(20px); transition:all 0.7s ease-out; }
+    .fade-in.visible { opacity:1; transform:translateY(0); }
+
+    /* footer */
+    footer { margin-top:28px; padding:18px 0; background:#fff; border-top:1px solid #f3e9e9; font-size:14px; color:var(--muted); }
+    .socials a { margin-left:10px; text-decoration:none; color:var(--muted); font-weight:700; }
+    .socials a:hover { color:var(--accent-2); }
+
+    /* responsive */
+    @media(min-width:700px){
+      .hero { grid-template-columns:1fr 420px; }
+      .grid { grid-template-columns:repeat(2,1fr); }
+      .brand { padding:0 18px; }
+    }
+    @media(min-width:1000px){
+      .grid { grid-template-columns:repeat(3,1fr); }
+    }
+    @media(max-width:500px){
+      h1 { font-size:22px; }
+      .cta, .order-btn { padding:8px 12px; font-size:14px; }
+      .featured-block video, .featured-block .video-fallback { height:220px; max-height:220px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="brand container">
+      <img src="imagesAK.png" alt="AK Collection Logo" class="logo-img">
+      <div>
+        <div class="title">AK Collection</div>
+        <div class="tag">Handpicked · Quality · Style</div>
+      </div>
+
+      <nav>
+        <a href="#">Home</a>
+        <a href="#products">Products</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="container">
+    <section class="hero fade-in">
+      <div class="hero-inner">
+        <h1 style="font-size:32px;margin:0 0 8px">Welcome to AK Collection</h1>
+        <p style="color:var(--muted);margin:0 0 8px">Discover curated items — fashion, accessories, and lifestyle pieces chosen for quality and style. New arrivals weekly.</p>
+
+        <!-- Urdu tagline -->
+        
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <a class="cta" href="#products">Shop Now</a>
+          <button class="btn" onclick="scrollToContact()">Get In Touch</button>
+          <a class="btn" href="https://api.whatsapp.com/send?phone=92300XXXXXXX&text=Hello%20AK%20Collection%2C%20I%20want%20to%20order%20..." target="_blank" rel="noopener">Order on WhatsApp</a>
+        </div>
+      </div>
+
+      <aside style="align-self:start;">
+        <div class="featured-block fade-in">
+          <h3 style="margin:0 0 8px">Featured Collection</h3>
+
+          <!-- VIDEO PLACEHOLDER:
+               Replace src="your-trendy-video.mp4" with your actual MP4/WebM link.
+               Poster shows image while video loads or if user has reduced motion.
+          -->
+          <video id="featuredVideo"
+                 src="your-trendy-video.mp4"
+                 poster="A_digital_photograph_showcases_three_fabrics_drape.png"
+                 muted playsinline loop autoplay loading="lazy"></video>
+
+          <!-- If you don't have a video yet, you can use this fallback div (uncomment and remove the <video> tag above):
+          <div class="video-fallback" style="background-image:url('A_digital_photograph_showcases_three_fabrics_drape.png')"></div>
+          -->
+
+          <p style="color:#555;margin:10px 0;font-weight:600;font-size:16px;">Elegant • Trendy • Unstitched Designs for Every Season</p>
+          <p style="color:var(--muted);margin:10px 0 0;font-size:15px;">AK Collection’s featured pick — inspired by timeless eastern fashion with a modern twist.</p>
+          <a href="#products" style="display:inline-block;margin-top:12px;padding:10px 18px;background:linear-gradient(90deg,#b76e79,#e6b7b8);color:white;border-radius:8px;font-weight:700;text-decoration:none;">Shop Now</a>
+        </div>
+      </aside>
+    </section>
+
+    <!-- PRODUCTS -->
+    <section id="products" class="fade-in" style="margin-top:18px;">
+      <h2 style="margin:6px 0 12px;color:#3a3a3a">Our Products</h2>
+      <div class="grid" id="productGrid"></div>
+    </section>
+
+    <!-- AUTUMN -->
+    <section id="autumn" class="fade-in" style="margin-top:28px;">
+      <div style="background: linear-gradient(135deg, #fbe4e6 0%, #f7caca 40%, #eec0c6 100%); padding:24px; border-radius:12px; text-align:center;">
+        <h2 style="font-size:24px;margin:0 0 8px">New Autumn Collection</h2>
+        <p style="color:#3a3a3a;">Explore our limited-edition autumn collection — bold colors, comfy cuts, and fabrics made for the local weather.</p>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about" class="fade-in" style="margin-top:28px">
+      <h2>About AK Collection</h2>
+      <p class="muted">AK Collection curates tasteful, high-quality products for everyday life. We focus on craftsmanship, responsible sourcing, and a timeless aesthetic.</p>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="fade-in" style="margin-top:22px">
+      <h2>Contact</h2>
+      <p class="muted" style="margin:6px 0">Have a question or want to wholesale? Send a message below.</p>
+      <form id="contactForm" onsubmit="handleContact(event)" style="max-width:620px;">
+        <input type="text" id="name" placeholder="Your name" required>
+        <input type="email" id="email" placeholder="Email address" required>
+        <textarea id="message" rows="4" placeholder="Message" required></textarea>
+        <div style="display:flex;gap:10px;align-items:center;margin-top:8px">
+          <button class="cta" type="submit">Send Message</button>
+          <a class="btn" href="https://api.whatsapp.com/send?phone=92300XXXXXXX&text=Hello%20AK%20Collection%2C%20I%20want%20to%20order%20..." target="_blank" rel="noopener">Order on WhatsApp</a>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <!-- ORDER FORM MODAL -->
+  <div id="orderModal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="orderTitle">
+      <button class="close" aria-label="Close order form" onclick="closeOrderModal()">✕</button>
+      <h3 id="orderTitle">Place Your Order</h3>
+      <form id="orderForm" onsubmit="submitOrder(event)">
+        <input type="text" id="orderProduct" name="product" readonly>
+        <input type="text" id="orderName" name="name" placeholder="Your full name" required>
+        <input type="tel" id="orderPhone" name="phone" placeholder="Phone (e.g. 03XXXXXXXXX)" required>
+        <textarea id="orderAddress" name="address" placeholder="Delivery address" rows="3" required></textarea>
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:8px;">
+          <button type="button" class="btn" onclick="closeOrderModal()">Cancel</button>
+          <button type="submit" class="submit">Send Order</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container" style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap">
+      <div>© <span id="year"></span> AK Collection</div>
+      <div style="color:var(--muted)">Designed with ❤️ — Unstitched Elegance</div>
+      <div class="socials">
+        <a href="https://instagram.com/yourbrand" target="_blank" rel="noopener">Instagram</a>
+        <a href="https://facebook.com/yourbrand" target="_blank" rel="noopener">Facebook</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    /* ---------- Demo products ---------- */
+    const products = [
+      {id:1,name:'Classic Linen Shirt',price:'PKR 2,499',cat:'fashion',img:'https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=800&auto=format&fit=crop'},
+      {id:2,name:'Handmade Leather Wallet',price:'PKR 1,850',cat:'accessories',img:'https://images.unsplash.com/photo-1526178618330-9ef9f2f0d2b4?q=80&w=800&auto=format&fit=crop'},
+      {id:3,name:'Minimal Ceramic Vase',price:'PKR 1,100',cat:'home',img:'https://images.unsplash.com/photo-1519710164239-da123dc03ef4?q=80&w=800&auto=format&fit=crop'},
+      {id:4,name:'Everyday Tote Bag',price:'PKR 1,250',cat:'accessories',img:'https://images.unsplash.com/photo-1543165721-39a2a3a2c8e7?q=80&w=800&auto=format&fit=crop'},
+      {id:5,name:'Chiffon 3-Piece',price:'PKR 4,200',cat:'fashion',img:'https://images.pexels.com/photos/994517/pexels-photo-994517.jpeg'}
+    ];
+
+    /* ---------- Render products with Order Now button ---------- */
+    function renderProducts(){
+      const grid = document.getElementById('productGrid');
+      grid.innerHTML='';
+      products.forEach(p=>{
+        const card = document.createElement('div');
+        card.className='card';
+        card.innerHTML = `
+          <img src="${p.img}" alt="${p.name}">
+          <div class="info">
+            <div style='font-weight:700'>${p.name}</div>
+            <div class="small muted" style="font-size:13px">${p.cat}</div>
+            <div class="price">${p.price}</div>
+            <div style="margin-top:10px">
+              <button class="order-btn" onclick="openOrderModal('${escapeHtml(p.name)}')">Order Now</button>
+            </div>
+          </div>`;
+        grid.appendChild(card);
+      });
+    }
+
+    /* ---------- Modal functions ---------- */
+    function openOrderModal(productName){
+      document.getElementById('orderProduct').value = productName;
+      const modal = document.getElementById('orderModal');
+      modal.classList.add('show');
+      modal.setAttribute('aria-hidden','false');
+      setTimeout(()=> document.getElementById('orderName').focus(), 150);
+    }
+    function closeOrderModal(){
+      const modal = document.getElementById('orderModal');
+      modal.classList.remove('show');
+      modal.setAttribute('aria-hidden','true');
+      document.getElementById('orderForm').reset();
+    }
+
+    /* ---------- Order submit (demo) ---------- */
+    function submitOrder(e){
+      e.preventDefault();
+      const product = document.getElementById('orderProduct').value;
+      const name = document.getElementById('orderName').value;
+      const phone = document.getElementById('orderPhone').value;
+      const address = document.getElementById('orderAddress').value;
+      const message = `Order:%0AProduct:${encodeURIComponent(product)}%0AName:${encodeURIComponent(name)}%0APhone:${encodeURIComponent(phone)}%0AAddress:${encodeURIComponent(address)}`;
+      const waNumber = '92300XXXXXXX';
+      const waUrl = `https://api.whatsapp.com/send?phone=${waNumber}&text=${message}`;
+      window.open(waUrl, '_blank');
+      closeOrderModal();
+    }
+
+    /* ---------- Escape helper ---------- */
+    function escapeHtml(text){
+      return String(text).replace(/'/g,"&#39;").replace(/"/g,"&quot;");
+    }
+
+    /* ---------- Fade-in observer ---------- */
+    const fadeEls = document.querySelectorAll('.fade-in');
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, {threshold:0.15});
+    fadeEls.forEach(e => io.observe(e));
+
+    /* ---------- Init ---------- */
+    document.getElementById('year').textContent = new Date().getFullYear();
+    renderProducts();
+
+    /* ---------- Helper: close modal on backdrop click ---------- */
+    document.getElementById('orderModal').addEventListener('click', function(e){
+      if(e.target === this) closeOrderModal();
+    });
+
+    /* ---------- contact form (simple demo) ---------- */
+    function handleContact(e){
+      e.preventDefault();
+      alert('Thank you! Your message has been sent (demo).');
+      document.getElementById('contactForm').reset();
+    }
+
+    /* ---------- helper: scrollToContact ---------- */
+    function scrollToContact(){ location.hash = '#contact'; document.getElementById('name')?.focus(); }
+  </script>
+</body>
+</html>
